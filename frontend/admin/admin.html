@@ -79,7 +79,6 @@
         <table id="bookingsTable">
             <thead>
                 <tr>
-                    <th>Booking ID</th>
                     <th>Customer</th>
                     <th>Driver</th>
                     <th>Car</th>
@@ -120,10 +119,9 @@
                 bookings.forEach(booking => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                        <td>${booking.carId?.name || "N/A"}</td>
-                        <td>${booking.customerId?.name || "N/A"}</td>
-                        <td>${booking.driverId?.name || "N/A"}</td>
-                        <td>${booking.carId?.model || "N/A"} - ${booking.carId?.brand || ""}</td>
+                        <td>${booking.customerId || "N/A"}</td>
+                        <td>${booking.driverId || "N/A"}</td>
+                        <td>${booking.carId || "N/A"} 
                         <td>${booking.pickupLocation}</td>
                         <td>${booking.dropoffLocation}</td>
                         <td>${booking.status}</td>
