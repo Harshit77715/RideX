@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - RideX</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    }
+
+    /* Signup Box Styling */
+    .signup-box {
+      width: 420px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .signup-box h2 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    /* Input Fields */
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-group input::placeholder,
+    .input-group select {
+      color: #ccc;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Signup Button */
+    .signup-btn {
+      width: 100%;
+      padding: 12px;
+      background: #00c6ff;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .signup-btn:hover {
+      background: #0072ff;
+      transform: scale(1.05);
+    }
+
+    /* Messages */
+    .message {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .success-msg {
+      color: #2ecc71;
+    }
+
+    .error-msg {
+      color: #e74c3c;
+    }
+
+    /* Login Redirect */
+    .link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #00c6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    <br>
+
+    <form id="signupForm">
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number" required />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Create a strong password" required />
+      </div>
+
+      <div class="input-group">
+        <label>Role</label>
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="customer">Customer</option>
+          <option value="driver">Driver</option>
+        </select>
+      </div>
+
+      <button type="submit" class="signup-btn">Sign Up</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+
+      if (!phone.match(/^\d{10}$/)) {
+        message.innerHTML = `<p class="error-msg">Invalid phone number! Must be 10 digits.</p>`;
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:5000/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, phone, password, role })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          message.innerHTML = `<p class="success-msg">Signup successful! <a href="login.html">Login now</a>.</p>`;
+          window.location.href = './login.html';
+        } else {
+          message.innerHTML = `<p class="error-msg">${data.msg || 'Signup failed'}</p>`;
+        }
+      } catch (error) {
+        console.log(error);
+        message.innerHTML = `<p class="error-msg">Something went wrong!</p>`;
+      }
+    });
+  </script>
+</body>
+
+</html>

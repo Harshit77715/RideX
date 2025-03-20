@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available Cars</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    nav .logo {
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+      color: #00c6ff;
+    }
+
+    /* Page Title */
+    h2 {
+      text-align: center;
+      margin: 30px 0 20px;
+      font-size: 26px;
+      color: #fff;
+    }
+
+    /* Car Container */
+    .car-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    /* Car Card */
+    .car-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      transition: 0.3s;
+      max-width: 230px;
+      /* Compact width */
+      margin: auto;
+    }
+
+    .car-card:hover {
+      transform: scale(1.05);
+    }
+
+    /* Car Image */
+    .car-card img {
+      width: 100%;
+      height: 120px;
+      /* Reduce image size */
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Car Details */
+    .car-card h3 {
+      margin: 8px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .car-card p {
+      font-size: 12px;
+      color: #ddd;
+      margin: 4px 0;
+    }
+
+    /* Book Button */
+    .book-btn {
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #00c6ff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .book-btn:hover {
+      background: #0072ff;
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ddd;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">RideX</div>
+    <ul>
+      <li><a href="customer.html">Home</a></li>
+      <li><a href="booking.html">Bookings</a></li>
+      <li><a href="availableCar.html">Cars Available</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <h2>Available Cars for Booking</h2>
+  <div class="car-container" id="carContainer">
+  </div>
+
+  <footer>
+    &copy; 2025 Car Booking Platform. All rights reserved.
+  </footer>
+
+  <script>
+    const carImages = [
+      "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
+      "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+      "https://images.pexels.com/photos/244206/pexels-photo-244206.jpeg",
+      "https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg",
+      "https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg",
+      "https://images.pexels.com/photos/1007415/pexels-photo-1007415.jpeg",
+      "https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg",
+      "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg",
+      "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg"
+    ];
+
+    async function fetchCars() {
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await fetch("http://localhost:5000/location/get", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await res.json();
+        displayCars(data);
+      } catch (err) {
+        alert("Failed to load available cars.");
+        console.error(err);
+      }
+    }
+
+    function displayCars(cars) {
+      const container = document.getElementById("carContainer");
+      container.innerHTML = "";
+
+      cars.forEach(car => {
+        const randomImg = carImages[Math.floor(Math.random() * carImages.length)];
+        const card = document.createElement("div");
+        card.className = "car-card";
+
+        card.innerHTML = `
+          <img src="${randomImg}" alt="Car Image" />
+          <h3>${car.model}</h3>
+          <p><strong>Car No:</strong> ${car.registrationNumber}</p>
+          <p><strong>Seats:</strong> ${car.capacity}</p>
+          <p><strong>Location:</strong> ${car.currentLocation}</p>
+          <p><strong>Price:</strong> ₹${car.price}</p>
+          <p><strong>Available:</strong> ${car.available ? 'Yes' : 'No'}</p>
+          <button class="book-btn" onclick="bookRide('${car._id}')">Book Ride</button>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    async function bookRide(carId) {
+      const token = localStorage.getItem("token");
+
+      const pickupLocation = prompt("Enter Pickup Location:");
+      if (!pickupLocation) return alert("Pickup location is required.");
+
+      const dropoffLocation = prompt("Enter Dropoff Location:");
+      if (!dropoffLocation) return alert("Dropoff location is required.");
+
+      const status = "pending"; // Default booking status
+
+      try {
+        const res = await fetch(`http://localhost:5000/booking/create/${carId}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            pickupLocation,
+            dropoffLocation,
+            status
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert("Booking successful!");
+        } else {
+          alert(data.message || "Failed to book.");
+        }
+      } catch (err) {
+        alert("Error while booking.");
+        console.error(err);
+      }
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "../login.html";
+    }
+
+    window.onload = fetchCars;
+  </script>
+</body>
+
+</html>

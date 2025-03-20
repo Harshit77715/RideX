@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer - RideX</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+    }
+    
+    /* Navigation Bar */
+    nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+    }
+    
+    nav .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    nav .logo:hover {
+      transform: scale(1.1);
+    }
+    
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    
+    nav ul li {
+      display: inline;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s, transform 0.2s;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    
+    nav ul li a:hover {
+      text-decoration: underline;
+      color: #00c6ff;
+      transform: translateY(-3px);
+    }
+    
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    .hero h1 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      animation: slideDown 1s ease-in-out;
+    }
+    
+    .hero p {
+      font-size: 18px;
+      opacity: 0.8;
+      animation: fadeIn 2s ease-in-out;
+    }
+    
+    /* Section Titles */
+    h2 {
+      text-align: center;
+      margin: 30px 0 20px;
+      font-size: 26px;
+      color: #fff;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: #00c6ff;
+      margin: 8px auto 0;
+    }
+    
+    /* Car Container */
+    .car-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      justify-content: center;
+    }
+    
+    /* Car Card */
+    .car-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      max-width: 230px;
+      margin: auto;
+    }
+    
+    .car-card:hover {
+      transform: scale(1.07);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* Car Image */
+    .car-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    
+    /* Car Details */
+    .car-card h3 {
+      margin: 8px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+    
+    .car-card p {
+      font-size: 12px;
+      color: #ddd;
+      margin: 4px 0;
+    }
+    
+    /* Book Button */
+    .book-btn {
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #00c6ff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .book-btn::after {
+      content: "";
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: left 0.3s ease-in-out;
+    }
+    
+    .book-btn:hover::after {
+      left: 100%;
+    }
+    
+    .book-btn:hover {
+      background: #0072ff;
+      transform: scale(1.05);
+    }
+    
+    /* CTA Section */
+    .cta {
+      text-align: center;
+      margin: 30px 0;
+    }
+    
+    .cta a {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+    }
+    
+    .cta a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0, 198, 255, 0.5);
+    }
+    
+    /* Profile Section */
+    #profile-section {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      margin: 20px auto;
+    }
+    
+    #profile-section input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ddd;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes slideDown {
+      0% { transform: translateY(-20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">RideX</div>
+    <ul>
+      <li><a href="customer.html">Home</a></li>
+      <li><a href="booking.html">Bookings</a></li>
+      <li><a href="AvailableCar.html">Available Cars</a></li>
+      <li><a href="#" onclick="showProfile()">Profile</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Welcome to RideX</h1>
+      <p>Book your ride easily and quickly — wherever you are!</p>
+    </div>
+
+    <div class="cta">
+      <a href="availableCar.html">Book Now</a>
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+  <div id="profile-section">
+    <h2>Your Profile</h2>
+    <form onsubmit="updateProfile(event)">
+      <label>Name:</label>
+      <input type="text" id="name" required />
+      <label>Email:</label>
+      <input type="email" id="email" disabled />
+      <label>Phone:</label>
+      <input type="text" id="phone" />
+      <label>Location:</label>
+      <input type="text" id="location" />
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 Car Booking Platform. All rights reserved.
+  </footer>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      window.location.href = '../login.html'; 
+    }
+
+    async function showProfile() {
+      document.getElementById("profile-section").style.display = "block";
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await fetch("http://localhost:5000/user/get", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await res.json();
+
+        document.getElementById("name").value = data.name || "";
+        document.getElementById("email").value = data.email || "";
+        document.getElementById("phone").value = data.phone || "";
+        document.getElementById("location").value = data.location || "";
+
+      } catch (err) {
+        alert("Failed to load profile data.");
+      }
+    }
+
+    async function updateProfile(e) {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      const payload = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        location: document.getElementById("location").value
+      };
+
+      try {
+        const res = await fetch("http://localhost:5000/user/update", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert("Profile updated successfully!");
+          document.getElementById("profile-section").style.display = "none";
+        } else {
+          alert(data.message || "Failed to update.");
+        }
+      } catch (err) {
+        alert("Error updating profile.");
+      }
+    }
+  </script>
+
+</body>
+</html>
