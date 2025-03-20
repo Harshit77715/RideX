@@ -3,18 +3,6 @@ import Booking from "../models/booking.model.js";
 const adminData = async (req, res) => {
     try {
         const data = await Booking.find({})
-            .populate({
-                path: "customerId",
-                select: "name email phone role"
-            })
-            .populate({
-                path: "driverId",
-                select: "name email phone role"
-            })
-            .populate({
-                path: "carId",
-                select: "model"
-            });
 
         res.status(200).json({
             success: true,
