@@ -11,7 +11,7 @@ import adminRouter from './routes/adminRoutes.js';
 const app = express()
 
 app.use(express.json());
-app.use(cors("http://127.0.0.1:5500/frontend"));
+app.use(cors({origin:["http://127.0.0.1:5500/frontend",'http://127.0.0.1:5501']}));
 
 app.use('/user',userRouter);
 app.use('/location',locationRouter);
