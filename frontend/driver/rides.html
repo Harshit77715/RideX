@@ -147,7 +147,7 @@
 
     async function fetchRide() {
       try {
-        const res = await fetch('http://localhost:5000/car/get', {
+        const res = await fetch('https://ridex-pjn2.onrender.com/car/get', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`

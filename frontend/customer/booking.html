@@ -147,7 +147,7 @@
 
     async function fetchBookings() {
       try {
-        const res = await fetch("http://localhost:5000/booking/getUserBooking", {
+        const res = await fetch("https://ridex-pjn2.onrender.com/booking/getUserBooking", {
           headers: {
             Authorization: `Bearer ${token}`
           }

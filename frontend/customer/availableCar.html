@@ -184,7 +184,7 @@
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch("http://localhost:5000/location/get", {
+        const res = await fetch("https://ridex-pjn2.onrender.com/location/get", {
           headers: {
             Authorization: `Bearer ${token}`
           }
