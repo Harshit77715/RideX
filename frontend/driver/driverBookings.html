@@ -147,10 +147,9 @@
         div.className = 'booking-card';
 
         div.innerHTML = `
-          <p><strong>User Name:</strong> ${booking.userId?.name || 'N/A'}</p>
           <p><strong>Pickup Location:</strong> ${booking.pickupLocation}</p>
-          <p><strong>Drop Location:</strong> ${booking.dropLocation}</p>
-          <p><strong>Date:</strong> ${new Date(booking.date).toLocaleString()}</p>
+          <p><strong>Drop Location:</strong> ${booking.dropoffLocation}</p>
+          <p><strong>Date:</strong> ${new Date(booking.bookingTime).toLocaleString()}</p>
           <p><strong>Status:</strong> <span class="status-tag">${booking.status}</span></p>
           <div class="btn-group">
             <button class="btn accept-btn" onclick="updateStatus('${booking._id}', 'Accepted')">Accept</button>
